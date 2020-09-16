@@ -1,0 +1,52 @@
+{
+  "name": "extremesensio/easywordpressbundle",
+  "description": "Easy implementation of Wordpress in Symfony 3+",
+  "keywords": ["easywordpressbundle", "symfony", "wordpress"],
+  "homepage": "http://github.com/ExtremeSensio/EasyWordpressBundle",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Antony De Lopez Vallerie",
+      "homepage" : "https://github.com/antonydelopez",
+      "role": "CTO/Developer"
+    },
+    {
+      "name": "Fabien Ruis",
+      "homepage": "https://github.com/toutma",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "symfony/symfony": "^3.0",
+    "vlucas/phpdotenv": "^2.4",
+    "symfony/console": "^3.2",
+    "incenteev/composer-parameter-handler": "~2.0"
+  },
+  "autoload": {
+    "psr-4": {"EasyWordpressBundle\\": "src/"}
+  },
+  "scripts": {
+    "get-wp-cli":[
+      "curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar",
+      "mv wp-cli.phar bin/wp"
+    ],
+    "installDep":[
+      "@get-wp-cli"
+    ],
+    "post-install-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+      "@installDep"
+    ],
+    "post-update-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ]
+  },
+  "extra": {
+    "incenteev-parameters": {
+      "file": "app/config/parameters.yml",
+      "keep-outdated": true
+    }
+  }
+}

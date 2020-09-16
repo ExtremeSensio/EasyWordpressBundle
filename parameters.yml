@@ -1,0 +1,5 @@
+parameters:
+    easy_wordpress:
+        wordpress_directory: '%kernel.root_dir%/../web/wp/'
+        controllers_namespace: AppBundle\\Controller
+        theme_directory: '%kernel.root_dir%/../src/AppBundle/Resources/themes/mythemes/'

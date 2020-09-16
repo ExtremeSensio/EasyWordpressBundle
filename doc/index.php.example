@@ -1,0 +1,19 @@
+<?php
+use Symfony\Component\HttpFoundation\Request;
+
+require_once __DIR__.'/boot.php';
+
+function initBoot () {
+    global $kernel;
+    $request  = Request::createFromGlobals();
+    $response = $kernel->handle($request);
+
+    if ($response instanceof \EasyWordpressBundle\Wordpress\WordpressResponse) {
+        $response->headers->remove('Content-Type');
+    }
+
+    $response->send();
+    $kernel->terminate($request, $response);
+}
+
+initBoot();

@@ -1,0 +1,6 @@
+wordpress_catch_all:
+    path: '/{url}'
+    requirements:
+      url: .*
+    defaults:
+      _controller: wordpress.helper:catchAllAction

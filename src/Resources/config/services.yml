@@ -1,0 +1,33 @@
+services:
+    wordpress.twig_extension:
+        class: EasyWordpressBundle\Twig\Extension\WordpressTwigExtension
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: twig.extension }
+
+    wordpress.helper:
+        class: EasyWordpressBundle\Service\WordpressHelper
+        arguments: ['@kernel']
+
+    wordpress.nav.menus:
+        class: EasyWordpressBundle\Service\WordpressNav
+
+    wordpress.data_collector:
+        class: EasyWordpressBundle\Service\WordpressDataCollector
+        arguments: []
+        tags:
+            - { name: data_collector, template: '@EasyWordpressBundle/Resources/views/toolbar.html.twig', id: 'wordpress'}
+
+    wordpress.controller_arguments_subscriber:
+        class: EasyWordpressBundle\EventListener\ControllerArgumentsSubscriber
+        arguments: ['@wordpress.helper']
+        tags:
+            - { name: kernel.event_subscriber }
+
+    wordpress.custom.post.type:
+        class: EasyWordpressBundle\Service\WordpressCustomPostType
+
+    wordpress.transients:
+        class: EasyWordpressBundle\Service\WordpressTransients
+
+

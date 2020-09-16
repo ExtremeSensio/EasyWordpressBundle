@@ -1,0 +1,5 @@
+<?php
+// Add these lines to the top of your file app/Resources/themes/yourtheme/functions.php
+require_once __DIR__.'/../../../../web/boot.php';
+
+symfony('wordpress.helper')->boot();

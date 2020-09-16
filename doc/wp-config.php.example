@@ -1,0 +1,115 @@
+<?php
+/**
+ * The base configuration for WordPress
+ *
+ * The wp-config.php creation script uses this file during the
+ * installation. You don't have to use the web site, you can
+ * copy this file to "wp-config.php" and fill in the values.
+ *
+ * This file contains the following configurations:
+ *
+ * * MySQL settings
+ * * Secret keys
+ * * Database table prefix
+ * * ABSPATH
+ *
+ * @link https://codex.wordpress.org/Editing_wp-config.php
+ *
+ * @package WordPress
+ */
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+// Add these at the beginning of file
+require_once(__DIR__.'/../vendor/autoload.php');
+require_once(__DIR__.'/boot.php');
+
+(new \Dotenv\Dotenv(__DIR__.'/../'))->load();
+/** @var ContainerInterface $container */
+$container = symfony('service_container');
+
+/** Custom Content Directory And Rewrite some env variables */
+define('WP_CONTENT_DIR', realpath($container->getParameter('kernel.root_dir').'/../web/content'));
+define('WP_CONTENT_URL', 'http://'.$_SERVER['HTTP_HOST'].'/content');
+define('WP_SITEURL', 'http://'.$_SERVER['HTTP_HOST'].'/wp');
+define('WP_PLUGIN_DIR', WP_CONTENT_DIR.'/plugins');
+
+if (! isset($_SERVER['SERVER_NAME'])) {
+    $_SERVER['SERVER_NAME'] = 'CliNotServerName';
+}
+
+/** Debug */
+define('WP_DEBUG', getenv('WP_DEBUG'));
+define('WP_DEBUG_DISPLAY', getenv('WP_DEBUG_DISPLAY'));
+
+/** The name of the database for WordPress */
+define('DB_NAME', $container->getParameter('database_name'));
+
+/** MySQL database username */
+define('DB_USER', $container->getParameter('database_user'));
+
+/** MySQL database password */
+define('DB_PASSWORD', $container->getParameter('database_password'));
+
+/** MySQL hostname */
+define('DB_HOST', $container->getParameter('database_host'));
+
+/** Database Charset to use in creating database tables. */
+define('DB_CHARSET', 'utf8mb4');
+
+/** The Database Collate type. Don't change this if in doubt. */
+define('DB_COLLATE', '');
+
+# Disables WP Core auto-update
+define('WP_AUTO_UPDATE_CORE', false);
+
+# Disables PHP editor in theme
+define('DISALLOW_FILE_EDIT', true);
+
+# Disables posts revisions
+define('WP_POST_REVISIONS', false);
+
+# Trash is cleaned every 5 days
+define('EMPTY_TRASH_DAYS', 5);
+
+# Autosaves limit on every hour
+define('AUTOSAVE_INTERVAL', 3600);
+
+# Remove JS and CSS from WPML
+define("ICL_DONT_LOAD_NAVIGATION_CSS", true);
+define("ICL_DONT_LOAD_LANGUAGES_JS", true);
+
+/**#@+
+ * Authentication Unique Keys and Salts.
+ *
+ * Change these to different unique phrases!
+ * You can generate these using the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}
+ * You can change these at any point in time to invalidate all existing cookies. This will force all users to have to log in again.
+ *
+ * @since 2.6.0
+ */
+define('AUTH_KEY', 'Ltx<FEuu!3p(L/!kFK!L]~ZZSS%1M*%2o|BE5/U#AYjN0iV`}&hHgMX=RTnAU/B6');
+define('SECURE_AUTH_KEY', 'Cy[dI T`;9[S*tL$$r<~Z!u_csd)tQ&/HUjOS=CYg}GM}H:$RKDHirH~` $Z |gl');
+define('LOGGED_IN_KEY', ';(NR28.;X5__IhoCl@wJes9En@J_)Dyd2(;U106Y (*!$J?Hf1pL}=P?%AVxIkmu');
+define('NONCE_KEY', 'oyib~N0vBm~YH$dO$dBrHQ,OowPkU+ZrMDU&3VwxJ{ekrMEuF;#@EiwoU)TnNmd1');
+define('AUTH_SALT', 'L%x;I =|Rj/01@R$w)Lre0#PV{&Q&Oo}/NDd^C,7B1@X)~ u7@e7Vo!yW@ApT*X:');
+define('SECURE_AUTH_SALT', '%CY,rr#h7C;7Ep:zKG2.V qblw$9gJ8*YUO;q2=w08kI7.Jy-uAH2Q~@v=sSuIP9');
+define('LOGGED_IN_SALT', ';^-N_ze`7QO8meUTJ~i9j-JS.ua#XM4U9fXF*e0Nz!v{&v0!sj7)JFTzldH]UmX-');
+define('NONCE_SALT', '@Wg,I;ihidyFt[U4oe{,r-c;5i{/%sWPHm7#|}LbdFkgO4=u47MbwhKeEa_H!6QW');
+
+/**#@-*/
+
+/**
+ * WordPress Database Table prefix.
+ *
+ * You can have multiple installations in one database if you give each
+ * a unique prefix. Only numbers, letters, and underscores please!
+ */
+$table_prefix = 'wp_';
+
+/** Absolute path to the WordPress directory. */
+if (! defined('ABSPATH')) {
+    define('ABSPATH', dirname(__FILE__).'/wp/');
+}
+
+/** Sets up WordPress vars and included files. */
+require_once(ABSPATH.'/wp-settings.php');
